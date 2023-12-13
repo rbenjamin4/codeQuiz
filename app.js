@@ -20,6 +20,7 @@ const questionData = [
 const questionEl = document.querySelector('#question')
 submitButton = document.querySelector('#submit')
 const answerEls = document.querySelectorAll('.answer')
+const quizContainer = document.querySelector('#quizContainer')
 
 const a_text = document.querySelector('#a_text')
 const b_text = document.querySelector('#b_text')
@@ -63,7 +64,7 @@ function deselectRadio() {
 }
 
 submitButton.addEventListener('click', () => {
-    const answer = selectedRadio
+    const answer = selectedRadio()
 
     if(answer) {
         if(answer === questionData[currentQuiz].correct){
@@ -76,7 +77,7 @@ submitButton.addEventListener('click', () => {
             loadQuiz()
         }
         else {
-            alert('Game over!')
+            quizContainer.innerHTML = `<h2>Your score is ${score}</h2`
         }
     }  
 
