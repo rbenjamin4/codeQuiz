@@ -1,24 +1,5 @@
-// click button to start game
-
-// const button = document.querySelector('#start')
-// let quizContainer = document.querySelector('#questionsContainer');
-// let answerOptions = document.querySelector('#answerOptions')
-// let resultsContainer = document.querySelector('#results');
-// let timer = document.querySelector('#timer')
-
-let submitButton = document.querySelector('#submit');
-
-const questionEl = document.querySelector('#question')
-
-const a_text = document.querySelector('#a_text')
-const b_text = document.querySelector('#b_text')
-const c_text = document.querySelector('#c_text')
-
-let currentQuiz = 0
-
-// questions and answer options
-
-const quizData = [
+// questions and possible answers with correct answer
+const questionData = [
     {
         question: "What does HTML stand for?",
         a: 'Hyper Tension Maker Limited',
@@ -35,74 +16,68 @@ const quizData = [
     }
 ]
 
+// select objects in the DOM
+const questionEl = document.querySelector('#question')
+submitButton = document.querySelector('#submit')
+const answerEls = document.querySelectorAll('.answer')
+
+const a_text = document.querySelector('#a_text')
+const b_text = document.querySelector('#b_text')
+const c_text = document.querySelector('#c_text')
+
+let currentQuiz = 0
 let score = 0
 
 
+loadQuiz()
 
-// function to start timer and present question
-const startQuiz = () => {
+// start quiz and load question data
+function loadQuiz() {
+    deselectRadio()
 
-const currentQuizData = quizData[currentQuiz]    
-questionEl.textContent = currentQuizData.question
-a_text.textContent = currentQuizData.a
-b_text.textContent = currentQuizData.b
-c_text.textContent = currentQuizData.c
+    const currentQuestionData = questionData[currentQuiz]
 
-currentQuiz++
-
-// timer
-    // let duration = 10
-    // const countdown = () => {
-    //     duration --
-    //     if (duration === 0){
-    //         alert('You\'re out of time!')
-    //     }
-    // }
-    // let timerInterval = window.setInterval(countdown, 1000)
-
-// display questions
-    // let quizPageEl = document.querySelector('#quizContainer') 
-    // quizPageEl.setAttribute("class", "hide")
-    // questionsEl.removeAttribute("class") 
-    // getQuestion()
-
-
-
+    questionEl.textContent = currentQuestionData.question
+    a_text.textContent = currentQuestionData.a
+    b_text.textContent = currentQuestionData.b
+    c_text.textContent = currentQuestionData.c
 
 }
 
+function selectedRadio() {    
+    let answer = undefined
 
-// create event listener to start quiz and load next question
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked){
+            answer = answerEl.id
+        }
+    })
+
+    return answer
+}
+
+function deselectRadio() {
+    answerEls.forEach(answerEl => {
+        answerEl.checked = false
+    })
+}
+
 submitButton.addEventListener('click', () => {
+    const answer = selectedRadio
 
-currentQuiz++
-
-startQuiz()
-
+    if(answer) {
+        if(answer === questionData[currentQuiz].correct){
+            score++
+        }
+        
+        currentQuiz++
+        
+        if(currentQuiz < questionData.length){
+            loadQuiz()
+        }
+        else {
+            alert('Game over!')
+        }
+    }  
 
 })
-
-
-
-
-
-//create event listener for when user selects answer
-
-
-
-// check to see if answer is right or wrong
-
-
-
-// display "Correct!" or "Incorrect!" and subtract time on timer if answer is wrong
-
-
-
-//game is over when all questions are answered or timer reaches 0
-
-
-
-//user can save initials and score 
-
-
-
