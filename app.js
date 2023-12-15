@@ -23,7 +23,8 @@ const answerEls = document.querySelectorAll('.answer')
 const quizContainer = document.querySelector('#quizContainer')
 const timerDisplay = document.querySelector('#timer')
 const startButton = document.querySelector('#start')
-
+const displayResults = document.querySelector('#results')
+const questionContainer = document.querySelector('#questionContainer')
 
 const a_text = document.querySelector('#a_text')
 const b_text = document.querySelector('#b_text')
@@ -33,10 +34,13 @@ let currentQuiz = 0
 let score = 0
 let duration = 30
 
+displayResults.classList.add('hide')
+questionContainer.style.display="none"
 
 // start quiz and load question data
 function loadQuiz() {
     deselectRadio()
+    questionContainer.style.display = "block"
 
     const currentQuestionData = questionData[currentQuiz]
 
@@ -49,8 +53,8 @@ function loadQuiz() {
         duration--
         timerDisplay.textContent = 'time: ' + duration
         if (duration === 0){
-            alert('You\'re out of time!')
-            clearInterval(timer)
+            timerDisplay.textContent = 'Game over! You\'re time is up.'
+            hideQuestion()
         }
     }
 
@@ -79,6 +83,7 @@ function deselectRadio() {
 submitButton.addEventListener('click', () => {
     const answer = selectedRadio()
 
+    // Check answer, add to score for correct answer and deduct time if answer is wrong
     if(answer) {
         if(answer === questionData[currentQuiz].correct){
             score++
@@ -93,10 +98,16 @@ submitButton.addEventListener('click', () => {
             loadQuiz()
         }
         else {
-            quizContainer.innerHTML = `<h2>Your score is ${score}</h2`
+            hideQuestion()
         }
     }  
 
 })
+
+const hideQuestion = () => {
+    displayResults.classList.remove('hide')
+    questionContainer.style.display="none"
+    clearInterval(timer)
+}
 
 startButton.addEventListener('click', loadQuiz)
