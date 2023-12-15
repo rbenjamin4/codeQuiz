@@ -25,6 +25,8 @@ const timerDisplay = document.querySelector('#timer')
 const startButton = document.querySelector('#start')
 const displayResults = document.querySelector('#results')
 const questionContainer = document.querySelector('#questionContainer')
+const submitScore = document.querySelector('#submitScore')
+const scoreDashboard = document.querySelector('#scoreDashboard')
 
 const a_text = document.querySelector('#a_text')
 const b_text = document.querySelector('#b_text')
@@ -36,6 +38,7 @@ let duration = 30
 
 displayResults.classList.add('hide')
 questionContainer.style.display="none"
+scoreDashboard.classList.add('hide')
 
 // start quiz and load question data
 function loadQuiz() {
@@ -105,9 +108,26 @@ submitButton.addEventListener('click', () => {
 })
 
 const hideQuestion = () => {
-    displayResults.classList.remove('hide')
-    questionContainer.style.display="none"
     clearInterval(timer)
+    displayResults.classList.remove('hide')
+    questionContainer.style.display='none'
+    document.getElementById("score").innerText = score
 }
 
+const saveScore = () => {
+    let userInitials = document.getElementById('userInitials').value
+    let previousScore = JSON.parse(localStorage.getItem('previousScore')) ||[]
+    previousScore.push({user:userInitials, score:score})
+    localStorage.setItem('previousScore', JSON.stringify(previousScore))
+    displayResults.classList.add('hide')
+    questionContainer.style.display='none'
+    scoreDashboard.classList.remove('hide')
+    for(let i = 0; i < previousScore.length; i++){
+        let h4El = document.createElement("h4")
+        h4El.textContent = `${previousScore[i].user} --- ${previousScore[i].score}`
+        scoreDashboard.appendChild(h4El)
+    }
+}
+
+submitScore.addEventListener('click', saveScore)
 startButton.addEventListener('click', loadQuiz)
