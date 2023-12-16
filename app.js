@@ -18,7 +18,7 @@ const questionData = [
 
 // select objects in the DOM
 const questionEl = document.querySelector('#question')
-submitButton = document.querySelector('#submit')
+const submitButton = document.querySelector('#submit')
 const answerEls = document.querySelectorAll('.answer')
 const quizContainer = document.querySelector('#quizContainer')
 const timerDisplay = document.querySelector('#timer')
@@ -27,6 +27,7 @@ const displayResults = document.querySelector('#results')
 const questionContainer = document.querySelector('#questionContainer')
 const submitScore = document.querySelector('#submitScore')
 const scoreDashboard = document.querySelector('#scoreDashboard')
+const timeOut = document.querySelector('#timeOut')
 
 const a_text = document.querySelector('#a_text')
 const b_text = document.querySelector('#b_text')
@@ -39,6 +40,7 @@ let duration = 30
 displayResults.classList.add('hide')
 questionContainer.style.display="none"
 scoreDashboard.classList.add('hide')
+timeOut.classList.add('hide')
 
 // start quiz and load question data
 function loadQuiz() {
@@ -56,7 +58,7 @@ function loadQuiz() {
         duration--
         timerDisplay.textContent = 'time: ' + duration
         if (duration === 0){
-            timerDisplay.textContent = 'Game over! You\'re time is up.'
+            timeOut.classList.remove('hide')
             hideQuestion()
         }
     }
@@ -122,6 +124,8 @@ const saveScore = () => {
     displayResults.classList.add('hide')
     questionContainer.style.display='none'
     scoreDashboard.classList.remove('hide')
+    timerDisplay.classList.add('hide')
+    startButton.classList.add('hide')
     for(let i = 0; i < previousScore.length; i++){
         let h4El = document.createElement("h4")
         h4El.textContent = `${previousScore[i].user} --- ${previousScore[i].score}`
