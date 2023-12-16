@@ -59,6 +59,7 @@ function loadQuiz() {
         timerDisplay.textContent = 'time: ' + duration
         if (duration === 0){
             timeOut.classList.remove('hide')
+            startButton.classList.add('hide')
             hideQuestion()
         }
     }
