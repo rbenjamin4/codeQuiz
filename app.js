@@ -1,18 +1,25 @@
 // questions and possible answers with correct answer
 const questionData = [
     {
-        question: "What does HTML stand for?",
-        a: 'Hyper Tension Maker Limited',
-        b: 'HyperText Markup Language',
-        c: 'How The Markup Loads',
+        question: "When was JavaScript first released?",
+        a: '1990',
+        b: '1995',
+        c: '2001',
         correct: 'b'
     },
     {
-        question: "What does CSS stand for?",
-        a: 'Centralized Style System',
-        b: 'Class System Sheet',
-        c: 'Cascading Style Sheet',
+        question: "What are variables used for?",
+        a: 'To compare values',
+        b: 'To do math',
+        c: 'To store data',
         correct: 'c'
+    },
+    {
+        question: "Which of the following is a comparison operator?",
+        a: '>',
+        b: '===',
+        c: '{}',
+        correct: 'a'
     }
 ]
 
@@ -35,8 +42,9 @@ const c_text = document.querySelector('#c_text')
 
 let currentQuiz = 0
 let score = 0
-let duration = 30
+let duration = 60
 
+// set initial visibility 
 displayResults.classList.add('hide')
 questionContainer.style.display="none"
 scoreDashboard.classList.add('hide')
@@ -54,6 +62,7 @@ function loadQuiz() {
     b_text.textContent = currentQuestionData.b
     c_text.textContent = currentQuestionData.c
 
+// timer
     const countdown = () => {
         duration--
         timerDisplay.textContent = 'time: ' + duration
@@ -68,6 +77,7 @@ function loadQuiz() {
 
 }
 
+// radio buttons 
 function selectedRadio() {    
     let answer = undefined
 
@@ -80,6 +90,7 @@ function selectedRadio() {
     return answer
 }
 
+//reset radio buttons from question to question
 function deselectRadio() {
     answerEls.forEach(answerEl => {
         answerEl.checked = false
@@ -94,7 +105,7 @@ submitButton.addEventListener('click', () => {
         if(answer === questionData[currentQuiz].correct){
             score++
         }else {
-            duration -= 5
+            duration -= 10
             timerDisplay.textContent = 'time: ' + duration
         }
         
@@ -110,6 +121,7 @@ submitButton.addEventListener('click', () => {
 
 })
 
+// hide question function
 const hideQuestion = () => {
     clearInterval(timer)
     displayResults.classList.remove('hide')
@@ -117,6 +129,7 @@ const hideQuestion = () => {
     document.getElementById("score").innerText = score
 }
 
+// set up score dashboard and visibility
 const saveScore = () => {
     let userInitials = document.getElementById('userInitials').value
     let previousScore = JSON.parse(localStorage.getItem('previousScore')) ||[]
@@ -134,5 +147,6 @@ const saveScore = () => {
     }
 }
 
+// button functionality 
 submitScore.addEventListener('click', saveScore)
 startButton.addEventListener('click', loadQuiz)
